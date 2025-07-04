@@ -1,28 +1,258 @@
-<!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>MindEase - Your Daily Mental Health Companion</title> <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="description" content="MindEase - Your Daily Mental Health Companion for mood tracking, gratitude, and wellness">
+    <meta name="keywords" content="mental health, mood tracker, gratitude, wellness, mindfulness">
+    <meta name="author" content="Ananya Trivedi">
+    <meta name="theme-color" content="#667eea">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <!-- iOS specific meta tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="MindEase">
+    
+    <!-- Android specific meta tags -->
+    <meta name="mobile-web-app-capable" content="yes">
+    
+    <title>MindEase - Your Daily Mental Health Companion</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Fallback for Google Fonts -->
+    <style>
+        @font-face {
+            font-family: 'Poppins-Fallback';
+            src: local('Arial'), local('Helvetica'), local('sans-serif');
+        }
+    </style>
+
 <style>
-    body { font-family: 'Poppins', sans-serif; }
-    .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #754aa1 100%); }
-    .card-shadow { box-shadow: 0 10px 25px rgba (0,0,0,0.1); }
-    .breathing-circle { animation: breathe 4s ease-in-out infinite;}
+    /* CSS Reset and Base Styles */
+    * {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+    
+    body { 
+        font-family: 'Poppins', 'Poppins-Fallback', Arial, Helvetica, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-rendering: optimizeLegibility;
+    }
+    
+    /* Enhanced gradient with fallback */
+    .gradient-bg { 
+        background: #667eea; /* Fallback */
+        background: -webkit-linear-gradient(135deg, #667eea 0%, #754aa1 100%);
+        background: -moz-linear-gradient(135deg, #667eea 0%, #754aa1 100%);
+        background: -o-linear-gradient(135deg, #667eea 0%, #754aa1 100%);
+        background: linear-gradient(135deg, #667eea 0%, #754aa1 100%);
+    }
+    
+    /* Enhanced shadow with vendor prefixes */
+    .card-shadow { 
+        -webkit-box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        -moz-box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    
+    /* Enhanced breathing animation with vendor prefixes */
+    .breathing-circle { 
+        -webkit-animation: breathe 4s ease-in-out infinite;
+        -moz-animation: breathe 4s ease-in-out infinite;
+        -o-animation: breathe 4s ease-in-out infinite;
+        animation: breathe 4s ease-in-out infinite;
+    }
 
-@keyframes breathe { 
-    0%, 100% { transform: scale(1); } 
-    50% { transform: scale (1.1); }
-}
+    /* Webkit animations */
+    @-webkit-keyframes breathe { 
+        0%, 100% { 
+            -webkit-transform: scale(1);
+            transform: scale(1);
+        } 
+        50% { 
+            -webkit-transform: scale(1.1);
+            transform: scale(1.1);
+        }
+    }
 
-.fade-in {
-    animation: fadeIn 0.5s ease-in;
-}
+    /* Mozilla animations */
+    @-moz-keyframes breathe { 
+        0%, 100% { 
+            -moz-transform: scale(1);
+            transform: scale(1);
+        } 
+        50% { 
+            -moz-transform: scale(1.1);
+            transform: scale(1.1);
+        }
+    }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); } 
-    to { opacity: 1; transform: translateY(0); }
+    /* Opera animations */
+    @-o-keyframes breathe { 
+        0%, 100% { 
+            -o-transform: scale(1);
+            transform: scale(1);
+        } 
+        50% { 
+            -o-transform: scale(1.1);
+            transform: scale(1.1);
+        }
+    }
+
+    /* Standard animations */
+    @keyframes breathe { 
+        0%, 100% { 
+            -webkit-transform: scale(1);
+            -moz-transform: scale(1);
+            -o-transform: scale(1);
+            transform: scale(1);
+        } 
+        50% { 
+            -webkit-transform: scale(1.1);
+            -moz-transform: scale(1.1);
+            -o-transform: scale(1.1);
+            transform: scale(1.1);
+        }
+    }
+
+    /* Enhanced fade-in with vendor prefixes */
+    .fade-in {
+        -webkit-animation: fadeIn 0.5s ease-in;
+        -moz-animation: fadeIn 0.5s ease-in;
+        -o-animation: fadeIn 0.5s ease-in;
+        animation: fadeIn 0.5s ease-in;
+    }
+
+    /* Webkit fade animations */
+    @-webkit-keyframes fadeIn {
+        from { 
+            opacity: 0; 
+            -webkit-transform: translateY(20px);
+            transform: translateY(20px);
+        } 
+        to { 
+            opacity: 1; 
+            -webkit-transform: translateY(0);
+            transform: translateY(0);
+        }
+    }
+
+    /* Mozilla fade animations */
+    @-moz-keyframes fadeIn {
+        from { 
+            opacity: 0; 
+            -moz-transform: translateY(20px);
+            transform: translateY(20px);
+        } 
+        to { 
+            opacity: 1; 
+            -moz-transform: translateY(0);
+            transform: translateY(0);
+        }
+    }
+
+    /* Opera fade animations */
+    @-o-keyframes fadeIn {
+        from { 
+            opacity: 0; 
+            -o-transform: translateY(20px);
+            transform: translateY(20px);
+        } 
+        to { 
+            opacity: 1; 
+            -o-transform: translateY(0);
+            transform: translateY(0);
+        }
+    }
+
+    /* Standard fade animations */
+    @keyframes fadeIn {
+        from { 
+            opacity: 0; 
+            -webkit-transform: translateY(20px);
+            -moz-transform: translateY(20px);
+            -o-transform: translateY(20px);
+            transform: translateY(20px);
+        } 
+        to { 
+            opacity: 1; 
+            -webkit-transform: translateY(0);
+            -moz-transform: translateY(0);
+            -o-transform: translateY(0);
+            transform: translateY(0);
+        }
+    }
+    
+    /* Enhanced touch support */
+    .tab-btn, .mood-btn, button {
+        -webkit-tap-highlight-color: transparent;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        touch-action: manipulation;
+    }
+    
+    /* Better mobile input handling */
+    input, textarea {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        border-radius: 0;
+    }
+    
+    /* Fix for iOS Safari */
+    input[type="text"], textarea {
+        -webkit-border-radius: 12px;
+        border-radius: 12px;
+    }
+    
+    /* Responsive text sizing */
+    @media screen and (max-width: 640px) {
+        html {
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+        }
+        
+        .tab-btn {
+            font-size: 0.875rem;
+            padding: 0.5rem 1rem;
+        }
+        
+        .breathing-circle {
+            width: 6rem;
+            height: 6rem;
+        }
+    }
+    
+    /* Focus styles for accessibility */
+    button:focus, input:focus, textarea:focus {
+        outline: 2px solid #8B5CF6;
+        outline-offset: 2px;
+    }
+    
+    /* High contrast support */
+    @media (prefers-contrast: high) {
+        .card-shadow {
+            border: 1px solid #333;
+        }
+    }
+    
+    /* Reduced motion support */
+    @media (prefers-reduced-motion: reduce) {
+        .breathing-circle,
+        .fade-in {
+            animation: none;
+        }
     }
 </style>
 
@@ -385,52 +615,251 @@
     let groundingStep = 0;
     let breathingActive = false;
     
-    // Initialize the app
-    document.addEventListener('DOMContentLoaded', function() {
-        initializeMoodChart();
-        loadGratitudeHistory();
-        
-        // Add enter key support for chat
-        document.getElementById('chat-input').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                sendMessage();
+    // Cross-browser localStorage check
+    function isLocalStorageSupported() {
+        try {
+            var test = 'test';
+            localStorage.setItem(test, test);
+            localStorage.removeItem(test);
+            return true;
+        } catch(e) {
+            return false;
+        }
+    }
+    
+    // Safe localStorage wrapper
+    var safeStorage = {
+        getItem: function(key) {
+            if (isLocalStorageSupported()) {
+                try {
+                    return localStorage.getItem(key);
+                } catch(e) {
+                    console.warn('localStorage getItem failed:', e);
+                    return null;
+                }
             }
-        });
-    });
+            return null;
+        },
+        setItem: function(key, value) {
+            if (isLocalStorageSupported()) {
+                try {
+                    localStorage.setItem(key, value);
+                    return true;
+                } catch(e) {
+                    console.warn('localStorage setItem failed:', e);
+                    return false;
+                }
+            }
+            return false;
+        },
+        removeItem: function(key) {
+            if (isLocalStorageSupported()) {
+                try {
+                    localStorage.removeItem(key);
+                    return true;
+                } catch(e) {
+                    console.warn('localStorage removeItem failed:', e);
+                    return false;
+                }
+            }
+            return false;
+        }
+    };
 
-    // Tab navigation
-    function showSection(sectionName) {
-        // Hide all sections
-        document.querySelectorAll('.section').forEach(section => {
-            section.classList.add('hidden');
-        });
-        
-        // Show selected section
-        document.getElementById(sectionName + '-section').classList.remove('hidden');
-        document.getElementById(sectionName + '-section').classList.add('fade-in');
-        
-        // Update tab styles
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.classList.remove('bg-purple-100', 'text-purple-700');
-            btn.classList.add('text-gray-600', 'hover:bg-gray-100');
-        });
-        
-        document.getElementById(sectionName + '-tab').classList.remove('text-gray-600', 'hover:bg-gray-100');
-        document.getElementById(sectionName + '-tab').classList.add('bg-purple-100', 'text-purple-700');
+    // Cross-browser event listener
+    function addEventListenerSafe(element, event, handler) {
+        if (element.addEventListener) {
+            element.addEventListener(event, handler, false);
+        } else if (element.attachEvent) {
+            element.attachEvent('on' + event, handler);
+        } else {
+            element['on' + event] = handler;
+        }
     }
 
-    // Mood tracking functions
-    function selectMood(value, emoji) {
-        currentMood = { value, emoji };
-        
-        // Update button styles
-        document.querySelectorAll('.mood-btn').forEach(btn => {
-            btn.classList.remove('border-purple-500', 'bg-purple-50');
-            btn.classList.add('border-gray-200');
+    // Initialize the app with error handling
+    function initializeApp() {
+        try {
+            initializeMoodChart();
+            loadGratitudeHistory();
+            
+            // Add enter key support for chat with cross-browser compatibility
+            var chatInput = document.getElementById('chat-input');
+            if (chatInput) {
+                addEventListenerSafe(chatInput, 'keypress', function(e) {
+                    // Cross-browser key detection
+                    var key = e.key || e.which || e.keyCode;
+                    if (key === 'Enter' || key === 13) {
+                        sendMessage();
+                    }
+                });
+            }
+            
+            // Touch event handling for mobile
+            if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+                document.body.classList.add('touch-device');
+                
+                // Add touch events for better mobile interaction
+                var buttons = document.querySelectorAll('button, .mood-btn, .tab-btn');
+                for (var i = 0; i < buttons.length; i++) {
+                    addEventListenerSafe(buttons[i], 'touchstart', function() {
+                        this.classList.add('touch-active');
+                    });
+                    addEventListenerSafe(buttons[i], 'touchend', function() {
+                        var self = this;
+                        setTimeout(function() {
+                            self.classList.remove('touch-active');
+                        }, 150);
+                    });
+                }
+            }
+            
+        } catch(error) {
+            console.error('Error initializing app:', error);
+            // Fallback for when Chart.js fails to load
+            var chartCanvas = document.getElementById('moodChart');
+            if (chartCanvas && !window.Chart) {
+                chartCanvas.parentNode.innerHTML = '<p class="text-center text-gray-600">Mood chart unavailable. Your data is still being saved.</p>';
+            }
+        }
+    }
+
+    // Cross-browser DOMContentLoaded
+    if (document.addEventListener) {
+        document.addEventListener('DOMContentLoaded', initializeApp, false);
+    } else if (document.attachEvent) {
+        document.attachEvent('onreadystatechange', function() {
+            if (document.readyState === 'complete') {
+                initializeApp();
+            }
         });
-        
-        event.target.closest('.mood-btn').classList.remove('border-gray-200');
-        event.target.closest('.mood-btn').classList.add('border-purple-500', 'bg-purple-50');
+    } else {
+        window.onload = initializeApp;
+    }
+
+    // Cross-browser tab navigation
+    function showSection(sectionName) {
+        try {
+            // Hide all sections - cross-browser approach
+            var sections = document.querySelectorAll ? document.querySelectorAll('.section') : 
+                          document.getElementsByClassName('section');
+            
+            if (sections.length) {
+                for (var i = 0; i < sections.length; i++) {
+                    var section = sections[i];
+                    if (section.classList) {
+                        section.classList.add('hidden');
+                    } else {
+                        // Fallback for older browsers
+                        section.className += ' hidden';
+                    }
+                }
+            }
+            
+            // Show selected section
+            var targetSection = document.getElementById(sectionName + '-section');
+            if (targetSection) {
+                if (targetSection.classList) {
+                    targetSection.classList.remove('hidden');
+                    targetSection.classList.add('fade-in');
+                } else {
+                    // Fallback for older browsers
+                    targetSection.className = targetSection.className.replace(/\bhidden\b/g, '') + ' fade-in';
+                }
+            }
+            
+            // Update tab styles - cross-browser approach
+            var tabButtons = document.querySelectorAll ? document.querySelectorAll('.tab-btn') : 
+                           document.getElementsByClassName('tab-btn');
+            
+            if (tabButtons.length) {
+                for (var j = 0; j < tabButtons.length; j++) {
+                    var btn = tabButtons[j];
+                    if (btn.classList) {
+                        btn.classList.remove('bg-purple-100', 'text-purple-700');
+                        btn.classList.add('text-gray-600', 'hover:bg-gray-100');
+                    } else {
+                        // Fallback for older browsers
+                        btn.className = btn.className.replace(/\bbg-purple-100\b/g, '').replace(/\btext-purple-700\b/g, '') + ' text-gray-600 hover:bg-gray-100';
+                    }
+                }
+            }
+            
+            var activeTab = document.getElementById(sectionName + '-tab');
+            if (activeTab) {
+                if (activeTab.classList) {
+                    activeTab.classList.remove('text-gray-600', 'hover:bg-gray-100');
+                    activeTab.classList.add('bg-purple-100', 'text-purple-700');
+                } else {
+                    // Fallback for older browsers
+                    activeTab.className = activeTab.className.replace(/\btext-gray-600\b/g, '').replace(/\bhover:bg-gray-100\b/g, '') + ' bg-purple-100 text-purple-700';
+                }
+            }
+            
+        } catch(error) {
+            console.error('Error in showSection:', error);
+        }
+    }
+
+    // Cross-browser mood tracking functions
+    function selectMood(value, emoji) {
+        try {
+            currentMood = { value: value, emoji: emoji };
+            
+            // Update button styles - cross-browser approach
+            var moodButtons = document.querySelectorAll ? document.querySelectorAll('.mood-btn') : 
+                             document.getElementsByClassName('mood-btn');
+            
+            if (moodButtons.length) {
+                for (var i = 0; i < moodButtons.length; i++) {
+                    var btn = moodButtons[i];
+                    if (btn.classList) {
+                        btn.classList.remove('border-purple-500', 'bg-purple-50');
+                        btn.classList.add('border-gray-200');
+                    } else {
+                        // Fallback for older browsers
+                        btn.className = btn.className.replace(/\bborder-purple-500\b/g, '').replace(/\bbg-purple-50\b/g, '') + ' border-gray-200';
+                    }
+                }
+            }
+            
+            // Find the clicked button - cross-browser event handling
+            var clickedButton = null;
+            if (window.event && window.event.target) {
+                clickedButton = window.event.target;
+            } else if (arguments.callee && arguments.callee.caller && arguments.callee.caller.arguments && arguments.callee.caller.arguments[0]) {
+                clickedButton = arguments.callee.caller.arguments[0].target;
+            }
+            
+            // Find the mood button parent
+            var moodBtn = clickedButton;
+            while (moodBtn && !hasClass(moodBtn, 'mood-btn')) {
+                moodBtn = moodBtn.parentNode;
+            }
+            
+            if (moodBtn) {
+                if (moodBtn.classList) {
+                    moodBtn.classList.remove('border-gray-200');
+                    moodBtn.classList.add('border-purple-500', 'bg-purple-50');
+                } else {
+                    // Fallback for older browsers
+                    moodBtn.className = moodBtn.className.replace(/\bborder-gray-200\b/g, '') + ' border-purple-500 bg-purple-50';
+                }
+            }
+            
+        } catch(error) {
+            console.error('Error in selectMood:', error);
+            currentMood = { value: value, emoji: emoji };
+        }
+    }
+    
+    // Helper function for older browsers
+    function hasClass(element, className) {
+        if (element.classList) {
+            return element.classList.contains(className);
+        } else {
+            return new RegExp('\\b' + className + '\\b').test(element.className);
+        }
     }
 
     function saveMood() {
@@ -442,26 +871,52 @@
         const note = document.getElementById('mood-note').value;
         const today = new Date().toDateString();
         
-        // Save to localStorage
-        let moodData = JSON.parse(localStorage.getItem('moodData') || '{}');
-        moodData[today] = {
-            mood: currentMood.value,
-            emoji: currentMood.emoji,
-            note: note,
-            timestamp: new Date().toISOString()
-        };
-        localStorage.setItem('moodData', JSON.stringify(moodData));
+        // Save to localStorage with error handling
+        try {
+            var moodDataStr = safeStorage.getItem('moodData') || '{}';
+            var moodData = JSON.parse(moodDataStr);
+            moodData[today] = {
+                mood: currentMood.value,
+                emoji: currentMood.emoji,
+                note: note,
+                timestamp: new Date().toISOString()
+            };
+            
+            if (!safeStorage.setItem('moodData', JSON.stringify(moodData))) {
+                alert('Unable to save mood data. Please check your browser settings.');
+                return;
+            }
+        } catch(error) {
+            console.error('Error saving mood data:', error);
+            alert('Error saving mood data. Please try again.');
+            return;
+        }
         
         // Update chart
         updateMoodChart();
         
-        // Reset form
+        // Reset form - cross-browser approach
         currentMood = null;
-        document.getElementById('mood-note').value = '';
-        document.querySelectorAll('.mood-btn').forEach(btn => {
-            btn.classList.remove('border-purple-500', 'bg-purple-50');
-            btn.classList.add('border-gray-200');
-        });
+        var moodNote = document.getElementById('mood-note');
+        if (moodNote) {
+            moodNote.value = '';
+        }
+        
+        var moodButtons = document.querySelectorAll ? document.querySelectorAll('.mood-btn') : 
+                         document.getElementsByClassName('mood-btn');
+        
+        if (moodButtons.length) {
+            for (var i = 0; i < moodButtons.length; i++) {
+                var btn = moodButtons[i];
+                if (btn.classList) {
+                    btn.classList.remove('border-purple-500', 'bg-purple-50');
+                    btn.classList.add('border-gray-200');
+                } else {
+                    // Fallback for older browsers
+                    btn.className = btn.className.replace(/\bborder-purple-500\b/g, '').replace(/\bbg-purple-50\b/g, '') + ' border-gray-200';
+                }
+            }
+        }
         
         alert('Mood saved successfully! 🎉');
     }
@@ -530,9 +985,19 @@
     }
 
     function updateMoodChart() {
-        const moodData = JSON.parse(localStorage.getItem('moodData') || '{}');
-        const last7Days = [];
-        const today = new Date();
+        if (!window.Chart || !moodChart) {
+            return; // Chart.js not available
+        }
+        
+        try {
+            var moodDataStr = safeStorage.getItem('moodData') || '{}';
+            var moodData = JSON.parse(moodDataStr);
+            var last7Days = [];
+            var today = new Date();
+        } catch(error) {
+            console.error('Error loading mood data for chart:', error);
+            return;
+        }
         
         for (let i = 6; i >= 0; i--) {
             const date = new Date(today);
@@ -563,27 +1028,45 @@
             return;
         }
         
-        const today = new Date().toDateString();
-        let gratitudeData = JSON.parse(localStorage.getItem('gratitudeData') || '[]');
+        var today = new Date().toDateString();
         
-        // Check if entry for today already exists
-        const existingIndex = gratitudeData.findIndex(entry => entry.date === today);
-        
-        const newEntry = {
-            date: today,
-            items: [gratitude1, gratitude2, gratitude3],
-            timestamp: new Date().toISOString()
-        };
-        
-        if (existingIndex >= 0) {
-            gratitudeData[existingIndex] = newEntry;
-        } else {
-            gratitudeData.unshift(newEntry);
+        try {
+            var gratitudeDataStr = safeStorage.getItem('gratitudeData') || '[]';
+            var gratitudeData = JSON.parse(gratitudeDataStr);
+            
+            // Check if entry for today already exists
+            var existingIndex = -1;
+            for (var i = 0; i < gratitudeData.length; i++) {
+                if (gratitudeData[i].date === today) {
+                    existingIndex = i;
+                    break;
+                }
+            }
+            
+            var newEntry = {
+                date: today,
+                items: [gratitude1, gratitude2, gratitude3],
+                timestamp: new Date().toISOString()
+            };
+            
+            if (existingIndex >= 0) {
+                gratitudeData[existingIndex] = newEntry;
+            } else {
+                gratitudeData.unshift(newEntry);
+            }
+            
+            // Keep only last 30 entries
+            gratitudeData = gratitudeData.slice(0, 30);
+            
+            if (!safeStorage.setItem('gratitudeData', JSON.stringify(gratitudeData))) {
+                alert('Unable to save gratitude data. Please check your browser settings.');
+                return;
+            }
+        } catch(error) {
+            console.error('Error saving gratitude data:', error);
+            alert('Error saving gratitude data. Please try again.');
+            return;
         }
-        
-        // Keep only last 30 entries
-        gratitudeData = gratitudeData.slice(0, 30);
-        localStorage.setItem('gratitudeData', JSON.stringify(gratitudeData));
         
         // Clear form
         document.getElementById('gratitude1').value = '';
@@ -597,22 +1080,49 @@
     }
 
     function loadGratitudeHistory() {
-        const gratitudeData = JSON.parse(localStorage.getItem('gratitudeData') || '[]');
-        const historyContainer = document.getElementById('gratitude-history');
-        
-        if (gratitudeData.length === 0) {
-            historyContainer.innerHTML = '<p class="text-gray-500 text-center py-8">No entries yet. Start by adding your first gratitude entry!</p>';
-            return;
+        try {
+            var gratitudeDataStr = safeStorage.getItem('gratitudeData') || '[]';
+            var gratitudeData = JSON.parse(gratitudeDataStr);
+            var historyContainer = document.getElementById('gratitude-history');
+            
+            if (!historyContainer) return;
+            
+            if (gratitudeData.length === 0) {
+                historyContainer.innerHTML = '<p class="text-gray-500 text-center py-8">No entries yet. Start by adding your first gratitude entry!</p>';
+                return;
+            }
+            
+            // Build HTML string manually for better browser compatibility
+            var htmlContent = '';
+            for (var i = 0; i < gratitudeData.length; i++) {
+                var entry = gratitudeData[i];
+                var entryDate = new Date(entry.date);
+                var dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                var formattedDate = entryDate.toLocaleDateString('en-US', dateOptions);
+                
+                htmlContent += '<div class="bg-green-50 p-4 rounded-xl border border-green-200">';
+                htmlContent += '<div class="font-medium text-green-800 mb-2">' + formattedDate + '</div>';
+                htmlContent += '<ul class="space-y-1 text-green-700">';
+                
+                for (var j = 0; j < entry.items.length; j++) {
+                    var item = entry.items[j];
+                    // Escape HTML to prevent XSS
+                    var escapedItem = item.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+                    htmlContent += '<li class="flex items-start"><span class="mr-2">•</span><span>' + escapedItem + '</span></li>';
+                }
+                
+                htmlContent += '</ul></div>';
+            }
+            
+            historyContainer.innerHTML = htmlContent;
+            
+        } catch(error) {
+            console.error('Error loading gratitude history:', error);
+            var historyContainer = document.getElementById('gratitude-history');
+            if (historyContainer) {
+                historyContainer.innerHTML = '<p class="text-red-500 text-center py-8">Error loading gratitude history. Please refresh the page.</p>';
+            }
         }
-        
-        historyContainer.innerHTML = gratitudeData.map(entry => `
-            <div class="bg-green-50 p-4 rounded-xl border border-green-200">
-                <div class="font-medium text-green-800 mb-2">${new Date(entry.date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</div>
-                <ul class="space-y-1 text-green-700">
-                    ${entry.items.map(item => `<li class="flex items-start"><span class="mr-2">•</span><span>${item}</span></li>`).join('')}
-                </ul>
-            </div>
-        `).join('');
     }
 
     // Calm zone functions
@@ -771,47 +1281,80 @@
         }
     }
 
-    // Additional utility functions
+    // Cross-browser utility functions
     function clearAllData() {
         if (confirm('Are you sure you want to clear all your data? This cannot be undone.')) {
-            localStorage.removeItem('moodData');
-            localStorage.removeItem('gratitudeData');
-            location.reload();
+            try {
+                safeStorage.removeItem('moodData');
+                safeStorage.removeItem('gratitudeData');
+                
+                // Cross-browser page reload
+                if (window.location.reload) {
+                    window.location.reload();
+                } else {
+                    window.location.href = window.location.href;
+                }
+            } catch(error) {
+                console.error('Error clearing data:', error);
+                alert('Error clearing data. Please refresh the page manually.');
+            }
         }
     }
 
-    // Export data function (for user's records)
+    // Cross-browser export data function
     function exportData() {
-        const moodData = JSON.parse(localStorage.getItem('moodData') || '{}');
-        const gratitudeData = JSON.parse(localStorage.getItem('gratitudeData') || '[]');
-        
-        const exportData = {
-            moods: moodData,
-            gratitude: gratitudeData,
-            exportDate: new Date().toISOString()
-        };
-        
-        const dataStr = JSON.stringify(exportData, null, 2);
-        const dataBlob = new Blob([dataStr], {type: 'application/json'});
-        const url = URL.createObjectURL(dataBlob);
-        
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = 'mindease-data-' + new Date().toISOString().split('T')[0] + '.json';
-        link.click();
-        
-        URL.revokeObjectURL(url);
+        try {
+            var moodDataStr = safeStorage.getItem('moodData') || '{}';
+            var gratitudeDataStr = safeStorage.getItem('gratitudeData') || '[]';
+            
+            var moodData = JSON.parse(moodDataStr);
+            var gratitudeData = JSON.parse(gratitudeDataStr);
+            
+            var exportData = {
+                moods: moodData,
+                gratitude: gratitudeData,
+                exportDate: new Date().toISOString()
+            };
+            
+            var dataStr = JSON.stringify(exportData, null, 2);
+            
+            // Check for modern browser features
+            if (window.Blob && window.URL && window.URL.createObjectURL) {
+                var dataBlob = new Blob([dataStr], {type: 'application/json'});
+                var url = URL.createObjectURL(dataBlob);
+                
+                var link = document.createElement('a');
+                link.href = url;
+                link.download = 'mindease-data-' + new Date().toISOString().split('T')[0] + '.json';
+                
+                // Trigger download
+                if (link.click) {
+                    link.click();
+                } else {
+                    // Fallback for older browsers
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }
+                
+                // Clean up
+                if (URL.revokeObjectURL) {
+                    URL.revokeObjectURL(url);
+                }
+            } else {
+                // Fallback for very old browsers - open in new window
+                var newWindow = window.open('', '_blank');
+                if (newWindow) {
+                    newWindow.document.write('<pre>' + dataStr + '</pre>');
+                    newWindow.document.title = 'MindEase Data Export';
+                } else {
+                    alert('Please copy the following data:\n\n' + dataStr);
+                }
+            }
+            
+        } catch(error) {
+            console.error('Error exporting data:', error);
+            alert('Error exporting data. Please try again.');
+        }
     }
 </script>
-
-<!-- Footer -->
-<footer class="bg-white border-t border-gray-200 mt-12 py-6">
-    <div class="max-w-6xl mx-auto px-6 text-center">
-        <p class="text-gray-600 text-sm">
-            © 2025 MindEase. Ananya Trivedi. All rights reserved.
-        </p>
-        <p class="text-gray-500 text-xs mt-2">
-            Your mental health matters. Take care of yourself. 🌟
-        </p>
-    </div>
-</footer>
