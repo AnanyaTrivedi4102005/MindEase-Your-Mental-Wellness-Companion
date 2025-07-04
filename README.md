@@ -2,6 +2,8 @@
 
 **MindEase** is a beautifully designed, privacy-first mental health web app focused on emotional self-care. Whether you're tracking your moods, practicing daily gratitude, or grounding yourself during anxious moments, MindEase brings clarity and calm — all in your browser.
 
+https://gleaming-chimera-ccd3b0.netlify.app/mindease
+
 ---
 
 ## ✨ Features
