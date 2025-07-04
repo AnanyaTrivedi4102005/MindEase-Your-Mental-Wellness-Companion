@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>MindEase - Your Daily Mental Health Companion</title> <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+    body { font-family: 'Poppins', sans-serif; }
+    .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #754aa1 100%); }
+    .card-shadow { box-shadow: 0 10px 25px rgba (0,0,0,0.1); }
+    .breathing-circle { animation: breathe 4s ease-in-out infinite;}
+
+@keyframes breathe { 
+    0%, 100% { transform: scale(1); } 
+    50% { transform: scale (1.1); }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); } 
+    to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+
+</head>
+<body class="bg-gradient-to-br from-purple-50 to-pink-50 min-h-screen">
+    <!-- Header -->
+    <header class="gradient-bg text-white p-6 shadow-lg">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                 <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+        <span class="text-2xl">🧠</span>
+
+    </div>
+    <h1 class="text-2xl font-bold">MindEase</h1>
+    </div>
+    <p class="text-purplr-100 hidden md:block">Your Daily Mental Health Companion</p>
+    </div>
+    </header>
+
+<!-- Main Content -->
+<main class="max-w-6xl mx-auto p-6">
+    <!-- Navigation Tabs -->
+    <div class="flex flex-wrap justify-center mb-8 bg-white rounded-2xl p-2 card-shadow">
+        <button onclick="showSection('mood')" class="tab-btn px-6 py-3 rounded-xl font-medium transition-all duration-300 bg-purple-100 text-purple-700" id="mood-tab">
+            😊 Mood Tracker
+        </button>
+        <button onclick="showSection('gratitude')" class="tab-btn px-6 py-3 rounded-xl font-medium transition-all duration-300 text-gray-600 hover:bg-gray-100" id="gratitude-tab">
+            🙏 Gratitude Log
+        </button>
+        <button onclick="showSection('calm')" class="tab-btn px-6 py-3 rounded-xl font-medium transition-all duration-300 text-gray-600 hover:bg-gray-100" id="calm-tab">
+            🧘 Calm Zone
+        </button>
+        <button onclick="showSection('checkin')" class="tab-btn px-6 py-3 rounded-xl font-medium transition-all duration-300 text-gray-600 hover:bg-gray-100" id="checkin-tab">
+            💬 Check-In
+        </button>
+        <button onclick="showSection('support')" class="tab-btn px-6 py-3 rounded-xl font-medium transition-all duration-300 text-gray-600 hover:bg-gray-100" id="support-tab">
+            🆘 Support
+        </button>
+        <button onclick="showSection('about')" class="tab-btn px-6 py-3 rounded-xl font-medium transition-all duration-300 text-gray-600 hover:bg-gray-100" id="about-tab">
+            🧠 About Us
+        </button>
+    </div>
+
+    <!-- Mood Tracker Section -->
+    <div id="mood-section" class="section fade-in">
+        <div class="grid md:grid-cols-2 gap-8">
+            <!-- Daily Mood Input -->
+            <div class="bg-white rounded-2xl p-8 card-shadow">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                    <span class="mr-3">📊</span>How are you feeling today?
+                </h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                    <button onclick="selectMood(1, '😔')" class="mood-btn p-4 rounded-xl border-2 border-gray-200 hover:border-purple-300 transition-all duration-300 text-center">
+                        <div class="text-4xl mb-2">😔</div>
+                        <div class="text-sm text-gray-600">Sad</div>
+                    </button>
+                    <button onclick="selectMood(2, '😐')" class="mood-btn p-4 rounded-xl border-2 border-gray-200 hover:border-purple-300 transition-all duration-300 text-center">
+                        <div class="text-4xl mb-2">😐</div>
+                        <div class="text-sm text-gray-600">Okay</div>
+                    </button>
+                    <button onclick="selectMood(3, '🙂')" class="mood-btn p-4 rounded-xl border-2 border-gray-200 hover:border-purple-300 transition-all duration-300 text-center">
+                        <div class="text-4xl mb-2">🙂</div>
+                        <div class="text-sm text-gray-600">Good</div>
+                    </button>
+                    <button onclick="selectMood(4, '😄')" class="mood-btn p-4 rounded-xl border-2 border-gray-200 hover:border-purple-300 transition-all duration-300 text-center">
+                        <div class="text-4xl mb-2">😄</div>
+                        <div class="text-sm text-gray-600">Great</div>
+                    </button>
+                </div>
+                <textarea id="mood-note" placeholder="What's on your mind? (optional)" class="w-full p-4 border border-gray-200 rounded-xl resize-none h-24 focus:outline-none focus:border-purple-300"></textarea>
+                <button onclick="saveMood()" class="w-full mt-4 bg-purple-500 text-white py-3 rounded-xl font-medium hover:bg-purple-600 transition-colors duration-300">
+                    Save Today's Mood
+                </button>
+            </div>
+
+            <!-- Mood Chart -->
+            <div class="bg-white rounded-2xl p-8 card-shadow">
+                <h3 class="text-xl font-bold text-gray-800 mb-6">Your Weekly Mood</h3>
+                <canvas id="moodChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gratitude Log Section -->
+    <div id="gratitude-section" class="section hidden">
+        <div class="grid md:grid-cols-2 gap-8">
+            <!-- Gratitude Input -->
+            <div class="bg-white rounded-2xl p-8 card-shadow">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                    <span class="mr-3">🙏</span>Today's Gratitude
+                </h2>
+                <p class="text-gray-600 mb-6">Write 3 things you're thankful for today:</p>
+                <div class="space-y-4">
+                    <input type="text" id="gratitude1" placeholder="1. I'm grateful for..." class="w-full p-4 border border-gray-200 rounded-xl focus:outline-none focus:border-purple-300">
+                    <input type="text" id="gratitude2" placeholder="2. I'm grateful for..." class="w-full p-4 border border-gray-200 rounded-xl focus:outline-none focus:border-purple-300">
+                    <input type="text" id="gratitude3" placeholder="3. I'm grateful for..." class="w-full p-4 border border-gray-200 rounded-xl focus:outline-none focus:border-purple-300">
+                </div>
+                <button onclick="saveGratitude()" class="w-full mt-6 bg-green-500 text-white py-3 rounded-xl font-medium hover:bg-green-600 transition-colors duration-300">
+                    Save Gratitude Entry
+                </button>
+            </div>
+
+            <!-- Past Gratitude Entries -->
+            <div class="bg-white rounded-2xl p-8 card-shadow">
+                <h3 class="text-xl font-bold text-gray-800 mb-6">Past Entries</h3>
+                <div id="gratitude-history" class="space-y-4 max-h-96 overflow-y-auto">
+                    <p class="text-gray-500 text-center py-8">No entries yet. Start by adding your first gratitude entry!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Calm Zone Section -->
+    <div id="calm-section" class="section hidden">
+        <div class="grid md:grid-cols-3 gap-8">
+            <!-- Breathing Exercise -->
+            <div class="bg-white rounded-2xl p-8 card-shadow text-center">
+                <h3 class="text-xl font-bold text-gray-800 mb-6">🫁 Breathing Exercise</h3>
+                <div class="breathing-circle w-32 h-32 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full mx-auto mb-6 flex items-center justify-center">
+                    <span class="text-white font-bold text-lg">Breathe</span>
+                </div>
+                <p class="text-gray-600 mb-4">Follow the circle's rhythm</p>
+                <button onclick="startBreathing()" class="bg-blue-500 text-white px-6 py-3 rounded-xl font-medium hover:bg-blue-600 transition-colors duration-300">
+                    Start Exercise
+                </button>
+            </div>
+
+            <!-- Grounding Technique -->
+            <div class="bg-white rounded-2xl p-8 card-shadow">
+                <h3 class="text-xl font-bold text-gray-800 mb-6">🌱 5-4-3-2-1 Grounding</h3>
+                <div id="grounding-steps" class="space-y-4">
+                    <div class="grounding-step p-4 bg-purple-50 rounded-xl">
+                        <div class="font-bold text-purple-700">5 Things You Can See</div>
+                        <p class="text-sm text-gray-600 mt-1">Look around and name 5 things you can see</p>
+                    </div>
+                    <div class="grounding-step p-4 bg-blue-50 rounded-xl opacity-50">
+                        <div class="font-bold text-blue-700">4 Things You Can Touch</div>
+                        <p class="text-sm text-gray-600 mt-1">Feel 4 different textures around you</p>
+                    </div>
+                    <div class="grounding-step p-4 bg-green-50 rounded-xl opacity-50">
+                        <div class="font-bold text-green-700">3 Things You Can Hear</div>
+                        <p class="text-sm text-gray-600 mt-1">Listen for 3 different sounds</p>
+                    </div>
+                    <div class="grounding-step p-4 bg-yellow-50 rounded-xl opacity-50">
+                        <div class="font-bold text-yellow-700">2 Things You Can Smell</div>
+                        <p class="text-sm text-gray-600 mt-1">Notice 2 different scents</p>
+                    </div>
+                    <div class="grounding-step p-4 bg-pink-50 rounded-xl opacity-50">
+                        <div class="font-bold text-pink-700">1 Thing You Can Taste</div>
+                        <p class="text-sm text-gray-600 mt-1">Focus on one taste in your mouth</p>
+                    </div>
+                </div>
+                <button onclick="startGrounding()" class="w-full mt-6 bg-green-500 text-white py-3 rounded-xl font-medium hover:bg-green-600 transition-colors duration-300">
+                    Start Grounding
+                </button>
+            </div>
+
+            <!-- Positive Quotes -->
+            <div class="bg-white rounded-2xl p-8 card-shadow text-center">
+                <h3 class="text-xl font-bold text-gray-800 mb-6">✨ Daily Inspiration</h3>
+                <div id="quote-card" class="bg-gradient-to-r from-pink-100 to-purple-100 p-6 rounded-xl mb-6">
+                    <p class="text-gray-700 italic mb-4" id="quote-text">"The only way out is through."</p>
+                    <p class="text-sm text-gray-500" id="quote-author">- Robert Frost</p>
+                </div>
+                <button onclick="getNewQuote()" class="bg-pink-500 text-white px-6 py-3 rounded-xl font-medium hover:bg-pink-600 transition-colors duration-300">
+                    New Quote
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Check-In Section -->
+    <div id="checkin-section" class="section hidden">
+        <div class="max-w-2xl mx-auto">
+            <div class="bg-white rounded-2xl p-8 card-shadow">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                    <span class="mr-3">💬</span>Daily Check-In
+                </h2>
+                <div id="chat-container" class="space-y-4 mb-6 max-h-96 overflow-y-auto">
+                    <div class="bg-purple-100 p-4 rounded-xl">
+                        <p class="text-purple-800">Hi there! I'm your MindEase companion. How are you feeling today?</p>
+                    </div>
+                </div>
+                <div class="flex space-x-4">
+                    <input type="text" id="chat-input" placeholder="Type your response..." class="flex-1 p-4 border border-gray-200 rounded-xl focus:outline-none focus:border-purple-300">
+                    <button onclick="sendMessage()" class="bg-purple-500 text-white px-6 py-4 rounded-xl font-medium hover:bg-purple-600 transition-colors duration-300">
+                        Send
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Us Section -->
+    <div id="about-section" class="section hidden">
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-white rounded-2xl p-8 card-shadow text-center mb-8">
+                <div class="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <span class="text-3xl">🧠</span>
+                </div>
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">About MindEase</h2>
+                <p class="text-xl text-gray-600 mb-8">Your personal mental wellness companion</p>
+                
+                <div class="text-left max-w-3xl mx-auto space-y-6">
+                    <div class="bg-purple-50 p-6 rounded-xl">
+                        <p class="text-gray-700 leading-relaxed">
+                            We built this platform with a simple mission: <strong>To make emotional self-care accessible, intuitive, and stigma-free.</strong>
+                        </p>
+                    </div>
+                    
+                    <p class="text-gray-700 leading-relaxed">
+                        In today's fast-paced world, it's easy to lose touch with your feelings. MindEase brings together science-backed tools and thoughtful design to help you slow down, reflect, and heal — one day at a time.
+                    </p>
+                    
+                    <p class="text-gray-700 leading-relaxed">
+                        Whether you're tracking your mood, practicing gratitude, grounding yourself during anxiety, or just needing a space to breathe — we're here for you.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-2xl p-8 card-shadow">
+                <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center flex items-center justify-center">
+                    <span class="mr-3">💖</span>Why MindEase?
+                </h3>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                <span class="text-purple-600">👥</span>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800">Designed by passionate developers and mental health advocates</h4>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                <span class="text-green-600">🔒</span>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800">Focused on privacy-first, local data storage</h4>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                <span class="text-blue-600">🎨</span>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800">Crafted with a calming user experience in mind</h4>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="w-8 h-8 bg-pink-100 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                <span class="text-pink-600">🤖</span>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800">Empowered by AI to meet you where you are emotionally</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-8 p-6 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl text-center">
+                    <p class="text-lg text-gray-700 font-medium mb-2">This isn't just an website.</p>
+                    <p class="text-gray-600">It's a quiet space in your browser — just for you.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Support Section -->
+    <div id="support-section" class="section hidden">
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-white rounded-2xl p-8 card-shadow">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                    <span class="mr-3">🆘</span>Emergency Support & Resources
+                </h2>
+                <div class="bg-red-50 border border-red-200 rounded-xl p-6 mb-8">
+                    <h3 class="text-lg font-bold text-red-800 mb-2">🚨 Crisis Helplines</h3>
+                    <p class="text-red-700 mb-4">If you're having thoughts of self-harm, please reach out immediately:</p>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-white p-4 rounded-lg">
+                            <h4 class="font-bold text-red-800">India - AASRA</h4>
+                            <p class="text-red-600 text-xl font-bold">+91-9820466726</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg">
+                            <h4 class="font-bold text-red-800">Crisis Text Line</h4>
+                            <p class="text-red-600 text-xl font-bold">Text HOME to 741741</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">🌍 International Resources</h3>
+                        <div class="space-y-4">
+                            <div class="border border-gray-200 rounded-lg p-4">
+                                <h4 class="font-bold text-gray-800">National Suicide Prevention Lifeline (US)</h4>
+                                <p class="text-gray-600">988</p>
+                            </div>
+                            <div class="border border-gray-200 rounded-lg p-4">
+                                <h4 class="font-bold text-gray-800">UK - Samaritans</h4>
+                                <p class="text-gray-600">116 123</p>
+                            </div>
+                            <div class="border border-gray-200 rounded-lg p-4">
+                                <h4 class="font-bold text-gray-800">Australia - Lifeline</h4>
+                                <p class="text-gray-600">13 11 14</p>
+                            </div>
+                            <div class="border border-gray-200 rounded-lg p-4">
+                                <h4 class="font-bold text-gray-800">Canada - Talk Suicide Canada</h4>
+                                <p class="text-gray-600">1-833-456-4566</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">🏥 Professional Help</h3>
+                        <div class="space-y-4">
+                            <div class="border border-gray-200 rounded-lg p-4">
+                                <h4 class="font-bold text-gray-800">Find a Therapist</h4>
+                                <p class="text-gray-600">Psychology Today, BetterHelp, Talkspace</p>
+                            </div>
+                            <div class="border border-gray-200 rounded-lg p-4">
+                                <h4 class="font-bold text-gray-800">Mental Health Apps</h4>
+                                <p class="text-gray-600">Headspace, Calm, Sanvello</p>
+                            </div>
+                            <div class="border border-gray-200 rounded-lg p-4">
+                                <h4 class="font-bold text-gray-800">Support Groups</h4>
+                                <p class="text-gray-600">NAMI, SCARF, Mental Health America</p>
+                            </div>
+                            <div class="border border-gray-200 rounded-lg p-4">
+                                <h4 class="font-bold text-gray-800">Emergency Services</h4>
+                                <p class="text-gray-600">Call 112 or go to nearest ER</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="bg-white mt-16 py-8 border-t border-gray-200">
+    <div class="max-w-6xl mx-auto px-6 text-center">
+        <p class="text-gray-600 mb-2">MindEase - Your Daily Mental Health Companion</p>
+        <p class="text-sm text-gray-500">Remember: This is for support only. Please seek professional help for serious mental health concerns.</p>
+    </div>
+</footer>
+
+<script>
+    // Global variables
+    let currentMood = null;
+    let moodChart = null;
+    let groundingStep = 0;
+    let breathingActive = false;
+    
+    // Initialize the app
+    document.addEventListener('DOMContentLoaded', function() {
+        initializeMoodChart();
+        loadGratitudeHistory();
+        
+        // Add enter key support for chat
+        document.getElementById('chat-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    });
+
+    // Tab navigation
+    function showSection(sectionName) {
+        // Hide all sections
+        document.querySelectorAll('.section').forEach(section => {
+            section.classList.add('hidden');
+        });
+        
+        // Show selected section
+        document.getElementById(sectionName + '-section').classList.remove('hidden');
+        document.getElementById(sectionName + '-section').classList.add('fade-in');
+        
+        // Update tab styles
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.classList.remove('bg-purple-100', 'text-purple-700');
+            btn.classList.add('text-gray-600', 'hover:bg-gray-100');
+        });
+        
+        document.getElementById(sectionName + '-tab').classList.remove('text-gray-600', 'hover:bg-gray-100');
+        document.getElementById(sectionName + '-tab').classList.add('bg-purple-100', 'text-purple-700');
+    }
+
+    // Mood tracking functions
+    function selectMood(value, emoji) {
+        currentMood = { value, emoji };
+        
+        // Update button styles
+        document.querySelectorAll('.mood-btn').forEach(btn => {
+            btn.classList.remove('border-purple-500', 'bg-purple-50');
+            btn.classList.add('border-gray-200');
+        });
+        
+        event.target.closest('.mood-btn').classList.remove('border-gray-200');
+        event.target.closest('.mood-btn').classList.add('border-purple-500', 'bg-purple-50');
+    }
+
+    function saveMood() {
+        if (!currentMood) {
+            alert('Please select a mood first!');
+            return;
+        }
+        
+        const note = document.getElementById('mood-note').value;
+        const today = new Date().toDateString();
+        
+        // Save to localStorage
+        let moodData = JSON.parse(localStorage.getItem('moodData') || '{}');
+        moodData[today] = {
+            mood: currentMood.value,
+            emoji: currentMood.emoji,
+            note: note,
+            timestamp: new Date().toISOString()
+        };
+        localStorage.setItem('moodData', JSON.stringify(moodData));
+        
+        // Update chart
+        updateMoodChart();
+        
+        // Reset form
+        currentMood = null;
+        document.getElementById('mood-note').value = '';
+        document.querySelectorAll('.mood-btn').forEach(btn => {
+            btn.classList.remove('border-purple-500', 'bg-purple-50');
+            btn.classList.add('border-gray-200');
+        });
+        
+        alert('Mood saved successfully! 🎉');
+    }
+
+    function initializeMoodChart() {
+        const ctx = document.getElementById('moodChart').getContext('2d');
+        moodChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Mood',
+                    data: [],
+                    borderColor: '#8B5CF6',
+                    backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: '#8B5CF6',
+                    pointBorderColor: '#ffffff',
+                    pointBorderWidth: 2,
+                    pointRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 4,
+                        min: 0,
+                        ticks: {
+                            stepSize: 1,
+                            callback: function(value) {
+                                const moods = ['', '😔', '😐', '🙂', '😄'];
+                                return moods[value] || '';
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(0,0,0,0.1)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            color: 'rgba(0,0,0,0.1)'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const moods = ['', 'Sad 😔', 'Okay 😐', 'Good 🙂', 'Great 😄'];
+                                return moods[context.parsed.y] || '';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        updateMoodChart();
+    }
+
+    function updateMoodChart() {
+        const moodData = JSON.parse(localStorage.getItem('moodData') || '{}');
+        const last7Days = [];
+        const today = new Date();
+        
+        for (let i = 6; i >= 0; i--) {
+            const date = new Date(today);
+            date.setDate(date.getDate() - i);
+            last7Days.push(date.toDateString());
+        }
+        
+        const labels = last7Days.map(date => {
+            const d = new Date(date);
+            return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+        });
+        
+        const data = last7Days.map(date => moodData[date]?.mood || null);
+        
+        moodChart.data.labels = labels;
+        moodChart.data.datasets[0].data = data;
+        moodChart.update();
+    }
+
+    // Gratitude functions
+    function saveGratitude() {
+        const gratitude1 = document.getElementById('gratitude1').value.trim();
+        const gratitude2 = document.getElementById('gratitude2').value.trim();
+        const gratitude3 = document.getElementById('gratitude3').value.trim();
+        
+        if (!gratitude1 || !gratitude2 || !gratitude3) {
+            alert('Please fill in all three gratitude items!');
+            return;
+        }
+        
+        const today = new Date().toDateString();
+        let gratitudeData = JSON.parse(localStorage.getItem('gratitudeData') || '[]');
+        
+        // Check if entry for today already exists
+        const existingIndex = gratitudeData.findIndex(entry => entry.date === today);
+        
+        const newEntry = {
+            date: today,
+            items: [gratitude1, gratitude2, gratitude3],
+            timestamp: new Date().toISOString()
+        };
+        
+        if (existingIndex >= 0) {
+            gratitudeData[existingIndex] = newEntry;
+        } else {
+            gratitudeData.unshift(newEntry);
+        }
+        
+        // Keep only last 30 entries
+        gratitudeData = gratitudeData.slice(0, 30);
+        localStorage.setItem('gratitudeData', JSON.stringify(gratitudeData));
+        
+        // Clear form
+        document.getElementById('gratitude1').value = '';
+        document.getElementById('gratitude2').value = '';
+        document.getElementById('gratitude3').value = '';
+        
+        // Reload history
+        loadGratitudeHistory();
+        
+        alert('Gratitude entry saved! 🙏');
+    }
+
+    function loadGratitudeHistory() {
+        const gratitudeData = JSON.parse(localStorage.getItem('gratitudeData') || '[]');
+        const historyContainer = document.getElementById('gratitude-history');
+        
+        if (gratitudeData.length === 0) {
+            historyContainer.innerHTML = '<p class="text-gray-500 text-center py-8">No entries yet. Start by adding your first gratitude entry!</p>';
+            return;
+        }
+        
+        historyContainer.innerHTML = gratitudeData.map(entry => `
+            <div class="bg-green-50 p-4 rounded-xl border border-green-200">
+                <div class="font-medium text-green-800 mb-2">${new Date(entry.date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</div>
+                <ul class="space-y-1 text-green-700">
+                    ${entry.items.map(item => `<li class="flex items-start"><span class="mr-2">•</span><span>${item}</span></li>`).join('')}
+                </ul>
+            </div>
+        `).join('');
+    }
+
+    // Calm zone functions
+    function startBreathing() {
+        if (breathingActive) {
+            alert('Breathing exercise is already running. Focus on the circle! 🫁');
+            return;
+        }
+        
+        breathingActive = true;
+        const button = event.target;
+        const originalText = button.textContent;
+        
+        button.textContent = 'Breathing... (2 min)';
+        button.disabled = true;
+        
+        // Stop after 2 minutes
+        setTimeout(() => {
+            breathingActive = false;
+            button.textContent = originalText;
+            button.disabled = false;
+            alert('Great job! You completed the breathing exercise. How do you feel? 🌟');
+        }, 120000); // 2 minutes
+    }
+
+    function startGrounding() {
+        groundingStep = 0;
+        const steps = document.querySelectorAll('.grounding-step');
+        
+        // Reset all steps
+        steps.forEach((step, index) => {
+            step.classList.add('opacity-50');
+            step.classList.remove('ring-2', 'ring-purple-300');
+        });
+        
+        // Highlight first step
+        steps[0].classList.remove('opacity-50');
+        steps[0].classList.add('ring-2', 'ring-purple-300');
+        
+        const interval = setInterval(() => {
+            groundingStep++;
+            if (groundingStep < steps.length) {
+                steps[groundingStep - 1].classList.remove('ring-2', 'ring-purple-300');
+                steps[groundingStep].classList.remove('opacity-50');
+                steps[groundingStep].classList.add('ring-2', 'ring-purple-300');
+            } else {
+                steps[groundingStep - 1].classList.remove('ring-2', 'ring-purple-300');
+                clearInterval(interval);
+                alert('Excellent! You\'ve completed the 5-4-3-2-1 grounding technique. You should feel more centered now. 🌱');
+            }
+        }, 4000); // 4 seconds per step
+    }
+
+    function getNewQuote() {
+        const quotes = [
+            { text: "The only way out is through.", author: "Robert Frost" },
+            { text: "You are braver than you believe, stronger than you seem, and smarter than you think.", author: "A.A. Milne" },
+            { text: "Every moment is a fresh beginning.", author: "T.S. Eliot" },
+            { text: "The greatest revolution of our generation is the discovery that human beings, by changing the inner attitudes of their minds, can change the outer aspects of their lives.", author: "William James" },
+            { text: "You don't have to be positive all the time. It's perfectly okay to feel sad, angry, annoyed, frustrated, scared, or anxious. Having feelings doesn't make you a negative person.", author: "Lori Deschene" },
+            { text: "Healing isn't about erasing your past or your pain. It's about learning to live with both.", author: "Unknown" },
+            { text: "Your mental health is a priority. Your happiness is essential. Your self-care is a necessity.", author: "Unknown" },
+            { text: "It's okay to not be okay. It's not okay to stay that way.", author: "Unknown" },
+            { text: "You are not your illness. You have an individual story to tell. You have a name, a history, a personality. Staying yourself is part of the battle.", author: "Julian Seifter" },
+            { text: "Mental health is not a destination, but a process. It's about how you drive, not where you're going.", author: "Noam Shpancer" },
+            { text: "The strongest people are not those who show strength in front of us, but those who win battles we know nothing about.", author: "Unknown" },
+            { text: "Your current situation is not your final destination. The best is yet to come.", author: "Unknown" }
+        ];
+        
+        const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+        document.getElementById('quote-text').textContent = `"${randomQuote.text}"`;
+        document.getElementById('quote-author').textContent = `- ${randomQuote.author}`;
+    }
+
+    // Check-in chat functions
+    function sendMessage() {
+        const input = document.getElementById('chat-input');
+        const message = input.value.trim();
+        
+        if (!message) return;
+        
+        const chatContainer = document.getElementById('chat-container');
+        
+        // Add user message
+        chatContainer.innerHTML += `
+            <div class="bg-gray-100 p-4 rounded-xl ml-8">
+                <p class="text-gray-800">${message}</p>
+            </div>
+        `;
+        
+        // Generate AI response
+        setTimeout(() => {
+            const response = generateResponse(message);
+            chatContainer.innerHTML += `
+                <div class="bg-purple-100 p-4 rounded-xl mr-8">
+                    <p class="text-purple-800">${response}</p>
+                </div>
+            `;
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }, 1000);
+        
+        input.value = '';
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    function generateResponse(message) {
+        const responses = {
+            sad: [
+                "I'm sorry you're feeling sad. Remember that it's okay to feel this way, and these feelings will pass. Would you like to try a breathing exercise?",
+                "Sadness is a natural emotion. You're not alone in feeling this way. Have you tried writing in your gratitude journal today?",
+                "I hear that you're going through a tough time. Sometimes talking about what's bothering you can help. What's on your mind?",
+                "It takes courage to acknowledge when you're feeling sad. That's already a step toward healing. What usually helps you feel a bit better?"
+            ],
+            anxious: [
+                "Anxiety can be overwhelming. Let's try the 5-4-3-2-1 grounding technique together. Can you name 5 things you can see right now?",
+                "When anxiety hits, remember to breathe. Try taking slow, deep breaths. You're safe right now.",
+                "Anxiety is your mind trying to protect you, but sometimes it goes overboard. What usually helps you feel calmer?",
+                "I understand anxiety can feel scary. Remember, you've gotten through difficult moments before, and you can get through this one too."
+            ],
+            good: [
+                "I'm so glad to hear you're feeling good! What's been going well for you today?",
+                "That's wonderful! It's important to celebrate the good moments. What made today special?",
+                "I love hearing that you're doing well! Keep up whatever you're doing - you deserve to feel good.",
+                "It's beautiful when you feel good. What are you most grateful for right now?"
+            ],
+            stressed: [
+                "Stress can be really challenging. What's been weighing on your mind lately?",
+                "When you're stressed, it's important to take breaks. Have you done anything relaxing today?",
+                "Stress is your body's way of responding to challenges. What would help you feel more at ease right now?",
+                "I hear that you're feeling stressed. Sometimes breaking big problems into smaller steps can help. What's one small thing you could do today?"
+            ],
+            default: [
+                "Thank you for sharing with me. How can I support you today?",
+                "I'm here to listen. Tell me more about how you're feeling.",
+                "Every feeling is valid. What would help you feel better right now?",
+                "You're taking a positive step by checking in with yourself. How has your day been?",
+                "I appreciate you opening up. What's one thing that brought you joy today, even if it was small?",
+                "It's brave of you to reach out. What's been on your heart lately?",
+                "How are you taking care of yourself today?",
+                "What's something you're looking forward to, even if it's small?"
+            ]
+        };
+        
+        const lowerMessage = message.toLowerCase();
+        
+        if (lowerMessage.includes('sad') || lowerMessage.includes('down') || lowerMessage.includes('depressed') || lowerMessage.includes('low')) {
+            return responses.sad[Math.floor(Math.random() * responses.sad.length)];
+        } else if (lowerMessage.includes('anxious') || lowerMessage.includes('worried') || lowerMessage.includes('panic') || lowerMessage.includes('nervous')) {
+            return responses.anxious[Math.floor(Math.random() * responses.anxious.length)];
+        } else if (lowerMessage.includes('good') || lowerMessage.includes('great') || lowerMessage.includes('happy') || lowerMessage.includes('amazing') || lowerMessage.includes('wonderful')) {
+            return responses.good[Math.floor(Math.random() * responses.good.length)];
+        } else if (lowerMessage.includes('stress') || lowerMessage.includes('overwhelm') || lowerMessage.includes('pressure') || lowerMessage.includes('busy')) {
+            return responses.stressed[Math.floor(Math.random() * responses.stressed.length)];
+        } else {
+            return responses.default[Math.floor(Math.random() * responses.default.length)];
+        }
+    }
+
+    // Additional utility functions
+    function clearAllData() {
+        if (confirm('Are you sure you want to clear all your data? This cannot be undone.')) {
+            localStorage.removeItem('moodData');
+            localStorage.removeItem('gratitudeData');
+            location.reload();
+        }
+    }
+
+    // Export data function (for user's records)
+    function exportData() {
+        const moodData = JSON.parse(localStorage.getItem('moodData') || '{}');
+        const gratitudeData = JSON.parse(localStorage.getItem('gratitudeData') || '[]');
+        
+        const exportData = {
+            moods: moodData,
+            gratitude: gratitudeData,
+            exportDate: new Date().toISOString()
+        };
+        
+        const dataStr = JSON.stringify(exportData, null, 2);
+        const dataBlob = new Blob([dataStr], {type: 'application/json'});
+        const url = URL.createObjectURL(dataBlob);
+        
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'mindease-data-' + new Date().toISOString().split('T')[0] + '.json';
+        link.click();
+        
+        URL.revokeObjectURL(url);
+    }
+</script>
+
+<!-- Footer -->
+<footer class="bg-white border-t border-gray-200 mt-12 py-6">
+    <div class="max-w-6xl mx-auto px-6 text-center">
+        <p class="text-gray-600 text-sm">
+            © 2025 MindEase. Ananya Trivedi. All rights reserved.
+        </p>
+        <p class="text-gray-500 text-xs mt-2">
+            Your mental health matters. Take care of yourself. 🌟
+        </p>
+    </div>
+</footer>
