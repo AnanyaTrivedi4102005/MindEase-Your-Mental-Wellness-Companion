@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -331,7 +331,9 @@
             <!-- Mood Chart -->
             <div class="bg-white rounded-2xl p-8 card-shadow">
                 <h3 class="text-xl font-bold text-gray-800 mb-6">Your Weekly Mood</h3>
-                <canvas id="moodChart" width="400" height="200"></canvas>
+                <div class="h-64 md:h-48 lg:h-40">
+                    <canvas id="moodChart" width="400" height="200"></canvas>
+                </div>
             </div>
         </div>
     </div>
@@ -938,12 +940,16 @@
                     pointBackgroundColor: '#8B5CF6',
                     pointBorderColor: '#ffffff',
                     pointBorderWidth: 2,
-                    pointRadius: 6
+                    pointRadius: 5
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                interaction: {
+                    intersect: false,
+                    mode: 'index'
+                },
                 scales: {
                     y: {
                         beginAtZero: true,
@@ -951,18 +957,30 @@
                         min: 0,
                         ticks: {
                             stepSize: 1,
+                            maxTicksLimit: 5,
+                            font: {
+                                size: 14
+                            },
                             callback: function(value) {
                                 const moods = ['', '😔', '😐', '🙂', '😄'];
                                 return moods[value] || '';
                             }
                         },
                         grid: {
-                            color: 'rgba(0,0,0,0.1)'
+                            color: 'rgba(0,0,0,0.1)',
+                            lineWidth: 1
                         }
                     },
                     x: {
+                        ticks: {
+                            maxTicksLimit: 7,
+                            font: {
+                                size: 12
+                            }
+                        },
                         grid: {
-                            color: 'rgba(0,0,0,0.1)'
+                            color: 'rgba(0,0,0,0.1)',
+                            lineWidth: 1
                         }
                     }
                 },
@@ -971,12 +989,25 @@
                         display: false
                     },
                     tooltip: {
+                        backgroundColor: 'rgba(0,0,0,0.8)',
+                        titleColor: 'white',
+                        bodyColor: 'white',
+                        cornerRadius: 8,
+                        displayColors: false,
                         callbacks: {
                             label: function(context) {
                                 const moods = ['', 'Sad 😔', 'Okay 😐', 'Good 🙂', 'Great 😄'];
                                 return moods[context.parsed.y] || '';
                             }
                         }
+                    }
+                },
+                elements: {
+                    line: {
+                        borderCapStyle: 'round'
+                    },
+                    point: {
+                        hoverRadius: 8
                     }
                 }
             }
@@ -1358,3 +1389,28 @@
         }
     }
 </script>
+
+<!-- Footer -->
+<footer class="bg-white border-t border-gray-200 mt-12 py-8">
+    <div class="max-w-6xl mx-auto px-6 text-center">
+        <div class="mb-4">
+            <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-3">
+                <span class="text-2xl">🧠</span>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-800 mb-2">MindEase</h3>
+            <p class="text-gray-600 text-sm mb-4">Your Daily Mental Health Companion</p>
+        </div>
+        
+        <div class="border-t border-gray-200 pt-6">
+            <p class="text-gray-700 font-medium text-sm mb-1">
+                © 2025 Copyright Ananya Trivedi
+            </p>
+            <p class="text-gray-500 text-xs mb-3">
+                All rights reserved. Made with 💜 for mental wellness.
+            </p>
+            <p class="text-gray-500 text-xs">
+                Your mental health matters. Take care of yourself. 🌟
+            </p>
+        </div>
+    </div>
+</footer>
